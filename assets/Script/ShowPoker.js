@@ -123,7 +123,8 @@ cc.Class({
             let pokerSprite = this._pokerSpriteList[i];
             //全屏坐标系
             let box = pokerSprite.getBoundingBoxToWorld();
-            if (cc.rectContainsPoint(box, touch)) {
+            //if (cc.rectContainsPoint(box, touch)) {
+            if (box.contains(touch)) {
                 // console.log('in');
                 pokerSprite.isChiose = true;
                 pokerSprite.color = new cc.color(200, 200, 200);
