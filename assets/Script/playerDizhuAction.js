@@ -27,12 +27,12 @@ cc.Class({
     },
     buqiang(){
         let mes = {playerIndex:Global.roomIndex,roomNum: Global.roomNum,qiangdizhu:false};
-        Network.socket.emit('qiangdizhu',  Network.stringifyJson(mes));
+        window.Network.socket.emit('qiangdizhu',  window.Network.stringifyJson(mes));
         this.node.active = false;
     },
     qiang(){
         let mes = {playerIndex:Global.roomIndex,roomNum: Global.roomNum,qiangdizhu:true};
-        Network.socket.emit('qiangdizhu',   Network.stringifyJson(mes));
+        window.Network.socket.emit('qiangdizhu',   window.Network.stringifyJson(mes));
         this.node.active = false;
     }
     // update (dt) {},
