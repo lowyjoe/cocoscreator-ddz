@@ -33,7 +33,7 @@ cc.Class({
         }
         let mes = {playerIndex:Global.roomIndex,roomNum: Global.roomNum};
 
-        Network.socket.emit('buchu',  Network.stringifyJson(mes));
+        window.Network.socket.emit('buchu',  window.Network.stringifyJson(mes));
 
         this.node.active = false;
     },
@@ -72,7 +72,7 @@ cc.Class({
 
        let mes = {pokers:pokerData,cardsType:thisType,roomNum: Global.roomNum,playerIndex:Global.roomIndex};
 
-       Network.socket.emit('chupai',  Network.stringifyJson(mes));
+       window.Network.socket.emit('chupai',  window.Network.stringifyJson(mes));
 
     },
 
