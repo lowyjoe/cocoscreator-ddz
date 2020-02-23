@@ -27,10 +27,10 @@ cc.Class({
         let self = this;
         self.playerName.string = Global.playerName;
         if (Global.roomWaitType == 'join') {
-            Network.socket.emit("getRoomData",Global.roomNum);
+            window.Network.socket.emit("getRoomData",Global.roomNum);
         }
         
-        Network.socket.on("getRoomDataBack" ,function(data){
+        window.Network.socket.on("getRoomDataBack" ,function(data){
             console.log(data);
             var playerIndex = 0;
             for (let index = 0; index < data.length; index++) {
