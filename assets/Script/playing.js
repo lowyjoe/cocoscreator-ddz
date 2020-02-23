@@ -79,18 +79,18 @@ cc.Class({
      * 离开房间
      */
     leaveRoom() {
-        Network.socket.emit('leaveRoom', Global.roomNum, Global.roomIndex);
+        window.Network.socket.emit('leaveRoom', Global.roomNum, Global.roomIndex);
     },
     /**
      * socket处理
      */
     socketAction() {
-        if (Network.socket == null) {
+        if (window.Network.socket == null) {
             //启动网络
-            Network.initNetwork();
+            window.Network.initwindow.Network();
         }
         let self = this;
-        // Network.socket.on('hello', function (msg) {
+        // window.Network.socket.on('hello', function (msg) {
         //     console.log(msg);
         // });
         console.log(Global.roomNum)
@@ -123,7 +123,7 @@ cc.Class({
         }
 
 
-        Network.socket.emit('readyGame', Global.roomNum, Global.roomIndex);
+        window.Network.socket.emit('readyGame', Global.roomNum, Global.roomIndex);
 
     },
     //洗牌算法
@@ -160,7 +160,7 @@ cc.Class({
         right.desTroyPokers(new Array());
     },
     testBtn() {
-        Network.socket.emit('restarGame', Global.roomNum, Global.roomIndex);
+        window.Network.socket.emit('restarGame', Global.roomNum, Global.roomIndex);
     },
     /**
      * 显示poker
@@ -253,7 +253,7 @@ cc.Class({
     //刷新显示数量
     refreshCount() {
         var self = this;
-        Network.socket.emit('refreshCardsCount', Global.roomNum);
+        window.Network.socket.emit('refreshCardsCount', Global.roomNum);
 
     },
     //设置Index
@@ -280,7 +280,7 @@ cc.Class({
      */
     socketOn() {
         var self = this;
-        Network.socket.on("readyGame" + Global.roomNum, function (roomIndex) {
+        window.Network.socket.on("readyGame" + Global.roomNum, function (roomIndex) {
             if (roomIndex == self.leftIndex) {
                 self.leftReady.string = "准备";
             } else if (roomIndex == self.rightIndex) {
@@ -290,11 +290,11 @@ cc.Class({
             }
         });
         //错误信息
-        Network.socket.on('errorPlay', function (errorMes) {
+        window.Network.socket.on('errorPlay', function (errorMes) {
             alert(errorMes);
         });
         //获取所有Poker
-        Network.socket.on('startGame' + Global.roomNum, function (playerIndex) {
+        window.Network.socket.on('startGame' + Global.roomNum, function (playerIndex) {
             self.restartGame();
             //隐藏控件
             self.maskBackground.active = false;
@@ -321,22 +321,22 @@ cc.Class({
             //当前操作对象
             self.setTip(playerIndex);
 
-            Network.socket.emit('getCards', Global.roomNum, Global.roomIndex);
+            window.Network.socket.emit('getCards', Global.roomNum, Global.roomIndex);
 
         });
-        Network.socket.on('getCardsBack' + Global.roomNum, function (cards) {
+        window.Network.socket.on('getCardsBack' + Global.roomNum, function (cards) {
             console.log(cards);
             self.startPlayer(cards);
         });
-        Network.socket.on('getDipaiCardsBack' + Global.roomNum, function (cards) {
+        window.Network.socket.on('getDipaiCardsBack' + Global.roomNum, function (cards) {
             console.log(cards);
             self.startDipai(cards);
         });
         //有人抢地主
-        Network.socket.on('qiangdizhuResult', function (msg) {
+        window.Network.socket.on('qiangdizhuResult', function (msg) {
 
             console.log(msg);
-            let data = Network.parseJson(msg);
+            let data = window.Network.parseJson(msg);
             let playerIndex = data.index;
             let qiangdizhu = data.qiangdizhuResult;
             let str = data.str;
@@ -351,8 +351,8 @@ cc.Class({
 
         });
         //目前抢地主用户
-        Network.socket.on('qiangdizhuNotice', function (msg) {
-            let data = Network.parseJson(msg);
+        window.Network.socket.on('qiangdizhuNotice', function (msg) {
+            let data = window.Network.parseJson(msg);
             let isFirst = data.isFirst;
             //当前操作对象
             self.setTip(data.nextIndex);
@@ -374,7 +374,7 @@ cc.Class({
 
         });
         //开始出牌
-        Network.socket.on('startPlayerPoker', function (playerIndex) {
+        window.Network.socket.on('startPlayerPoker', function (playerIndex) {
             console.log("地主为:" + playerIndex);
             //存储地主人员
             Global.dizhuIndex = playerIndex;
@@ -386,7 +386,7 @@ cc.Class({
             //当前操作对象
             self.setTip(playerIndex);
             //展示底牌
-            Network.socket.emit('getCards', Global.roomNum, 3);
+            window.Network.socket.emit('getCards', Global.roomNum, 3);
             if (playerIndex == self.leftIndex) {
                 //地主标志
                 self.leftIsDizhu.active = true;
@@ -401,15 +401,15 @@ cc.Class({
             } else {
                 self.playerIsDizhu.active = true;
                 self.playerAction.active = true;
-                Network.socket.emit('getCards', Global.roomNum, Global.roomIndex);
+                window.Network.socket.emit('getCards', Global.roomNum, Global.roomIndex);
                 //重置poker
                 var showPoker = self.playerHandCards.getComponent('ShowPoker');
                 showPoker.pokerAllDown();
             }
         });
 
-        Network.socket.on('playerAction', function (mes) {
-            let data = Network.parseJson(mes);
+        window.Network.socket.on('playerAction', function (mes) {
+            let data = window.Network.parseJson(mes);
 
             let playerIndex = data.nextIndex;
             let isFirst = data.isFirst;
@@ -432,7 +432,7 @@ cc.Class({
 
         });
         //不出
-        Network.socket.on('buchu', function (playerIndex) {
+        window.Network.socket.on('buchu', function (playerIndex) {
             let blank = new Array();
             if (playerIndex == self.leftIndex) {
                 self.leftbuchu.string = "不出";
@@ -451,8 +451,8 @@ cc.Class({
             }
         });
         //出牌
-        Network.socket.on('chupai', function (mes) {
-            let data = Network.parseJson(mes);
+        window.Network.socket.on('chupai', function (mes) {
+            let data = window.Network.parseJson(mes);
             let playerIndex = data.playerIndex;
             let pokers = data.pokers;
 
@@ -473,7 +473,7 @@ cc.Class({
             } else {
                 self.playerAction.active = false;
                 //手牌
-                Network.socket.emit('getCards', Global.roomNum, Global.roomIndex);
+                window.Network.socket.emit('getCards', Global.roomNum, Global.roomIndex);
                 //出的牌
                 self.startShowPokers(pokers, PlayerType.shoupai);
                 //重置poker
@@ -481,7 +481,7 @@ cc.Class({
                 showPoker.pokerAllDown();
             }
         });
-        Network.socket.on('gameOver', function (playerIndex) {
+        window.Network.socket.on('gameOver', function (playerIndex) {
             if (playerIndex == Global.dizhuIndex) {
                 console.log("地主胜利")
                 //我是地主
@@ -505,7 +505,7 @@ cc.Class({
             }
             self.onGameover();
         });
-        Network.socket.on('refreshCardsCountBack' + Global.roomNum, function (datas) {
+        window.Network.socket.on('refreshCardsCountBack' + Global.roomNum, function (datas) {
             console.log(datas);
             self.leftCount.string = "" + datas[self.leftIndex];
             self.rightCount.string = "" + datas[self.rightIndex];
