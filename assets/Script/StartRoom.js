@@ -16,8 +16,8 @@ cc.Class({
         } else if (name == '') {
             alert('请输入昵称');
         } else {
-            Network.socket.emit('creatRoom', number, name);
-            Network.socket.on('creatRoomReturn', function (flag) {
+            window.Network.socket.emit('creatRoom', number, name);
+            window.Network.socket.on('creatRoomReturn', function (flag) {
                 if (flag) {
                     Global.playerName = name;
                     Global.roomNum = number;
@@ -42,7 +42,7 @@ cc.Class({
             alert('请输入昵称');
         } else {
             //加入房间号
-            Network.socket.on('joinRoomBack', function (flag) {
+            window.Network.socket.on('joinRoomBack', function (flag) {
                 if (flag) {
                     Global.playerName = name;
                     Global.roomNum = number;
@@ -53,13 +53,13 @@ cc.Class({
                     alert('房间无法加入');
                 }
             });
-            Network.socket.emit('joinRoom', number,name);
+            window.Network.socket.emit('joinRoom', number,name);
 
         }
     },
     onLoad() {
         //启动网络
-        Network.initNetwork();
+        window.Network.initNetwork();
     },
 
     start() {
